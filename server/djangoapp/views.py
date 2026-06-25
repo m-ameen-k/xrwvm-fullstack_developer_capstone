@@ -133,3 +133,23 @@ def registration_request(request):
 
     return JsonResponse({"status": False, "message": "Only POST method allowed"})
 # --- End user management views ---
+
+# --- CarMake and CarModel API added for capstone ---
+from .models import CarMake, CarModel
+
+
+def get_cars(request):
+    car_models = CarModel.objects.select_related("make").all()
+    cars = []
+
+    for car in car_models:
+        cars.append({
+            "make": car.make.name,
+            "model": car.name,
+            "type": car.type,
+            "year": car.year,
+            "dealer_id": car.dealer_id,
+        })
+
+    return JsonResponse({"CarModels": cars})
+# --- End CarMake and CarModel API ---
