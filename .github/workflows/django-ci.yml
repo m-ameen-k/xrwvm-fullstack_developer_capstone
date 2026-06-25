@@ -1,12 +1,16 @@
-name: Django CI
+name: Django CI/CD
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  build-test:
+  build-test-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +38,21 @@ jobs:
         run: |
           python manage.py migrate --run-syncdb
 
-      - name: CI completed
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          push: true
+          tags: ghcr.io/m-ameen-k/capstone-cars:latest
+
+      - name: CI/CD completed
         run: |
           echo "GitHub Actions workflow completed successfully"
+          echo "Docker image pushed to ghcr.io/m-ameen-k/capstone-cars:latest"
