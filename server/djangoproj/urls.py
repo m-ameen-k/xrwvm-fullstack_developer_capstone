@@ -21,6 +21,8 @@ from django.conf import settings
 from djangoapp import views as app_views
 
 urlpatterns = [
+    path('dealer-15-reviews/', app_views.dealer_15_reviews_page),
+    path('demo-logout/', app_views.demo_logout_home),
     path('dealer/<int:dealer_id>/', app_views.dealer_details_page),
     path('dealer/<int:dealer_id>/review/', app_views.dealer_review_form),
     path('dealer/<int:dealer_id>/added_review/', app_views.added_review_page),

@@ -366,3 +366,16 @@ def added_review_page(request, dealer_id):
     </html>
     """)
 # --- End UI pages for capstone screenshots 17-22 ---
+
+# --- Extra screenshot helper routes ---
+from django.contrib.auth import logout as django_logout
+
+
+def demo_logout_home(request):
+    django_logout(request)
+    return dealers_home(request)
+
+
+def dealer_15_reviews_page(request):
+    return dealer_details_page(request, 15)
+# --- End extra screenshot helper routes ---
