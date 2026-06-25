@@ -153,3 +153,25 @@ def get_cars(request):
 
     return JsonResponse({"CarModels": cars})
 # --- End CarMake and CarModel API ---
+
+# --- Sentiment analysis API added for capstone ---
+@csrf_exempt
+def analyze_review(request):
+    if request.method == "POST":
+        data = json.loads(request.body.decode("utf-8"))
+        review_text = data.get("review", "")
+
+        if "fantastic" in review_text.lower() or "good" in review_text.lower() or "great" in review_text.lower():
+            sentiment = "positive"
+        elif "bad" in review_text.lower() or "poor" in review_text.lower():
+            sentiment = "negative"
+        else:
+            sentiment = "neutral"
+
+        return JsonResponse({
+            "review": review_text,
+            "sentiment": sentiment
+        })
+
+    return JsonResponse({"error": "Only POST method allowed"})
+# --- End sentiment analysis API ---
