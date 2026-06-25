@@ -29,7 +29,18 @@ SECRET_KEY =\
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = []
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.cognitiveclass.ai",
+    "https://*.skills.network",
+    "https://*.appdomain.cloud",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
